@@ -1,0 +1,8 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+ <rect width="512" height="512" rx="110" fill="#12366d"></rect>
+ <path d="M256 75 L420 390 H92 Z" fill="none" stroke="#ffffff" stroke-width="24" stroke-linejoin="round"></path>
+ <path d="M190 320 H322 M222 255 H290" stroke="#f5b83d" stroke-width="22" stroke-linecap="round"></path>
+ <circle cx="256" cy="205" r="17" fill="#f5b83d"></circle>
+ <text x="256" y="455" font-size="47" font-weight="bold" text-anchor="middle" fill="white">BAC</text>
+</svg>

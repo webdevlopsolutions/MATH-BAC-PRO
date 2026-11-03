@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#12366d">
+<meta name="description" content="MATH BAC PRO - منصة التحضير لشهادة البكالوريا في الرياضيات">
+<title>MATH BAC PRO</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#f2f5fb;color:#17243b;
+ font-family:Tahoma,Arial,sans-serif;line-height:1.8
+}
+header{
+ background:linear-gradient(135deg,#102d60,#1768b0);
+ color:white;padding:25px 17px 30px;
+ border-radius:0 0 25px 25px;
+}
+.top{display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:25px;font-weight:bold;letter-spacing:1px}
+.tag{font-size:12px;opacity:.85}
+.hero{text-align:center;padding:23px 5px 12px}
+.hero h1{font-size:25px;margin:0 0 8px}
+.hero p{font-size:14px;margin:0;color:#e3edff}
+main{max-width:800px;margin:auto;padding:15px}
+.section-title{font-size:18px;font-weight:bold;margin:15px 3px 10px}
+.card{
+ background:white;border:1px solid #e2e8f2;border-radius:16px;
+ padding:16px;margin-bottom:13px;
+ box-shadow:0 4px 14px #193b680c
+}
+.track{
+ display:flex;align-items:center;gap:12px;
+ cursor:pointer;transition:.2s
+}
+.track:active{transform:scale(.99)}
+.track-icon{
+ width:49px;height:49px;flex-shrink:0;border-radius:13px;
+ display:grid;place-items:center;background:#eaf1ff;font-size:25px
+}
+.track h3{margin:0;font-size:16px}
+.track p{margin:2px 0 0;font-size:12px;color:#68758a}
+.track button{
+ margin-right:auto;background:#174ea6;color:white;
+ border:0;border-radius:9px;padding:9px 13px;
+ font-weight:bold;font-family:inherit
+}
+.module{
+ display:flex;align-items:center;gap:12px;
+ border-bottom:1px solid #edf0f5;padding:12px 0
+}
+.module:last-child{border:0}
+.module-number{
+ background:#eaf1ff;color:#174ea6;font-weight:bold;
+ width:36px;height:36px;border-radius:10px;
+ display:grid;place-items:center;flex-shrink:0
+}
+.module-info{flex:1}
+.module-info strong{font-size:14px}
+.module-info small{display:block;color:#7b8798;font-size:11px}
+.open{
+ text-decoration:none;background:#174ea6;color:white;
+ border-radius:8px;padding:7px 12px;font-size:12px
+}
+.soon{
+ color:#8994a5;background:#f1f3f7;border-radius:8px;
+ padding:5px 9px;font-size:11px
+}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.feature{
+ background:#f6f8fc;border-radius:12px;padding:12px;
+ font-size:13px
+}
+.feature b{display:block;color:#174ea6;font-size:14px}
+footer{text-align:center;color:#7b8798;font-size:11px;padding:20px}
+#installBtn{
+ display:none;width:100%;padding:13px;border:0;
+ border-radius:11px;background:#f5a623;color:#17243b;
+ font-weight:bold;font-family:inherit;font-size:14px;
+ margin-top:12px;cursor:pointer
+}
+@media(max-width:430px){
+ .hero h1{font-size:21px}
+ .track button{padding:8px 10px}
+ .features{gap:7px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="top">
+  <div>
+   <div class="brand">MATH BAC PRO</div>
+   <div class="tag">منصة الرياضيات للتحضير للبكالوريا</div>
+  </div>
+  <div style="font-size:28px">📐</div>
+ </div>
+ <div class="hero">
+  <h1>طريقك نحو التفوق في الرياضيات</h1>
+  <p>دروس مفصلة • براهين • تمارين • تصحيحات • اختبارات</p>
+ </div>
+</header>
+
+<main>
+
+ <div class="section-title">اختر شعبتك</div>
+
+ <div class="card track" onclick="selectTrack('math')">
+  <div class="track-icon">📐</div>
+  <div>
+   <h3>شعبة الرياضيات</h3>
+   <p>برنامج الرياضيات لشعبة الرياضيات</p>
+  </div>
+  <button>اختيار</button>
+ </div>
+
+ <div class="card track" onclick="selectTrack('science')">
+  <div class="track-icon">🔬</div>
+  <div>
+   <h3>شعبة العلوم التجريبية</h3>
+   <p>برنامج الرياضيات لشعبة العلوم التجريبية</p>
+  </div>
+  <button>اختيار</button>
+ </div>
+
+ <div class="section-title" id="programTitle">برنامج الرياضيات</div>
+
+ <div class="card">
+  <div class="module">
+   <div class="module-number">01</div>
+   <div class="module-info">
+    <strong>النهايات والاستمرارية</strong>
+    <small>الدروس والبراهين والأمثلة والتمارين</small>
+   </div>
+   <a class="open" href="limites.html">فتح</a>
+  </div>
+
+  <div class="module">
+   <div class="module-number">02</div>
+   <div class="module-info">
+    <strong>الاشتقاقية ودراسة الدوال</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">03</div>
+   <div class="module-info">
+    <strong>الدوال الأسية</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">04</div>
+   <div class="module-info">
+    <strong>الدوال اللوغاريتمية</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">05</div>
+   <div class="module-info">
+    <strong>المتتاليات العددية</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">06</div>
+   <div class="module-info">
+    <strong>الحساب التكاملي</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">07</div>
+   <div class="module-info">
+    <strong>الأعداد المركبة</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+
+  <div class="module">
+   <div class="module-number">08</div>
+   <div class="module-info">
+    <strong>الاحتمالات</strong>
+    <small>قريباً</small>
+   </div>
+   <span class="soon">قريباً</span>
+  </div>
+ </div>
+
+ <div class="section-title">ماذا تقدم لك المنصة؟</div>
+ <div class="card features">
+  <div class="feature">📚 <b>دروس مفصلة</b>شرح منظم لكل محور</div>
+  <div class="feature">✍️ <b>براهين رياضية</b>خطوات واضحة ومفسرة</div>
+  <div class="feature">📈 <b>منحنيات تفاعلية</b>فهم بصري للمفاهيم</div>
+  <div class="feature">🎯 <b>تدريب وتقييم</b>تمارين واختبارات</div>
+ </div>
+
+ <div class="card">
+  <strong>ابدأ رحلتك نحو البكالوريا</strong>
+  <p style="font-size:13px;color:#68758a">
+   تعلم وفق برنامجك، راجع الدروس، تدرب على التمارين واختبر مستواك.
+  </p>
+  <button id="installBtn">⬇ تثبيت التطبيق على الهاتف</button>
+ </div>
+
+</main>
+
+<footer>
+ MATH BAC PRO © 2026<br>
+ جميع الحقوق محفوظة
+</footer>
+
+<script>
+function selectTrack(track){
+ const title=document.getElementById("programTitle");
+ if(track==="math"){
+  title.textContent="برنامج الرياضيات — شعبة الرياضيات";
+ }else{
+  title.textContent="برنامج الرياضيات — شعبة العلوم التجريبية";
+ }
+ localStorage.setItem("mathbac_track",track);
+}
+
+const savedTrack=localStorage.getItem("mathbac_track");
+if(savedTrack)selectTrack(savedTrack);
+
+let installPrompt=null;
+const installBtn=document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt",event=>{
+ event.preventDefault();
+ installPrompt=event;
+ installBtn.style.display="block";
+});
+
+installBtn.addEventListener("click",async()=>{
+ if(!installPrompt)return;
+ installPrompt.prompt();
+ await installPrompt.userChoice;
+ installPrompt=null;
+ installBtn.style.display="none";
+});
+
+if("serviceWorker" in navigator && location.protocol!=="file:"){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js")
+   .catch(error=>console.log("Service Worker:",error));
+ });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>النهايات والاستمرارية - MATH BAC PRO</title>
+<style>
+:root{
+ --bg:#f3f6fc;--card:#fff;--primary:#174ea6;
+ --secondary:#0b7b70;--text:#182338;--muted:#68758a;
+ --border:#e1e7f0;--soft:#eaf1ff;--orange:#f59e0b;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Tahoma,Arial,sans-serif;line-height:1.9;
+}
+header{
+ background:linear-gradient(120deg,#102f68,#1768ad);
+ color:white;padding:13px 16px;
+ position:sticky;top:0;z-index:10;
+ box-shadow:0 3px 12px #0002;
+}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.logo{font-size:18px;font-weight:bold}
+.subtitle{font-size:11px;opacity:.85}
+.progress{
+ height:5px;background:#ffffff40;border-radius:10px;
+ margin-top:9px;overflow:hidden
+}
+.progress span{display:block;height:100%;background:#ffd166;width:0;transition:.3s}
+nav{
+ display:flex;gap:7px;padding:10px;
+ overflow-x:auto;background:white;position:sticky;top:76px;
+ z-index:9;border-bottom:1px solid var(--border);
+ scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none}
+nav button{
+ flex:0 0 auto;border:0;border-radius:20px;padding:8px 13px;
+ background:#edf1f8;color:#334155;font-weight:bold;
+ font-size:13px;cursor:pointer;
+}
+nav button.active{background:var(--primary);color:white}
+main{max-width:850px;margin:auto;padding:13px}
+.panel{display:none}
+.panel.active{display:block;animation:show .2s ease}
+@keyframes show{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}
+.card{
+ background:var(--card);border:1px solid var(--border);
+ border-radius:14px;padding:15px;margin-bottom:12px;
+ box-shadow:0 2px 8px #172b4d08;
+}
+h2{font-size:19px;margin:0 0 12px;color:var(--primary)}
+h3{font-size:16px;color:var(--secondary);margin:14px 0 7px}
+p{margin:7px 0}
+.formula{
+ direction:ltr;text-align:center;background:#f0f5ff;
+ border:1px solid #dce7fb;border-radius:10px;padding:12px;
+ margin:10px 0;font-size:17px;font-weight:bold;
+ color:#173c78;overflow-x:auto;
+}
+.note{background:#fff8e8;border-right:4px solid var(--orange);padding:10px;border-radius:8px;margin:10px 0}
+.info{background:#eaf8f5;border-right:4px solid var(--secondary);padding:10px;border-radius:8px;margin:10px 0}
+.muted{color:var(--muted);font-size:13px}
+.controls{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:13px}
+button.action{
+ border:0;background:var(--primary);color:white;
+ padding:10px 15px;border-radius:9px;font-weight:bold;cursor:pointer;
+}
+button.secondary{background:#e8edf6;color:#26364d}
+button:disabled{opacity:.35;cursor:not-allowed}
+select,input[type=range]{
+ max-width:100%;padding:9px;border:1px solid var(--border);
+ border-radius:8px;background:white;font-family:inherit
+}
+.lesson-count{font-size:12px;color:var(--muted)}
+details{background:#f7f9fd;border:1px solid var(--border);border-radius:9px;padding:10px;margin:9px 0}
+summary{cursor:pointer;font-weight:bold;color:var(--primary)}
+.solution{margin-top:8px}
+.exercise{border-bottom:1px solid var(--border);padding:10px 0}
+.exercise:last-child{border:0}
+canvas{width:100%;height:280px;background:#fff;border:1px solid var(--border);border-radius:10px;display:block}
+.graph-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.quiz-option{
+ display:block;width:100%;text-align:right;background:#f3f6fc;
+ border:1px solid var(--border);padding:10px;border-radius:8px;
+ margin:7px 0;cursor:pointer;font-family:inherit
+}
+.quiz-option:hover{border-color:var(--primary)}
+.result{font-weight:bold;margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:480px){
+ .logo{font-size:16px}
+ nav{top:73px}
+ main{padding:9px}
+ .card{padding:12px}
+ .formula{font-size:15px}
+ canvas{height:240px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="head">
+  <div>
+   <div class="logo">MATH BAC PRO</div>
+   <div class="subtitle">النهايات والاستمرارية</div>
+  </div>
+  <div class="subtitle">رياضيات البكالوريا</div>
+ </div>
+ <div class="progress"><span id="progressBar"></span></div>
+</header>
+
+<nav id="tabs">
+ <button class="active" data-tab="lessons">الدروس</button>
+ <button data-tab="proofs">البراهين</button>
+ <button data-tab="examples">الأمثلة</button>
+ <button data-tab="graphs">المنحنيات</button>
+ <button data-tab="exercises">التمارين</button>
+ <button data-tab="quiz">الاختبار</button>
+</nav>
+
+<main>
+
+<section id="lessons" class="panel active">
+ <div class="card">
+  <div class="lesson-count" id="lessonCount"></div>
+  <h2 id="lessonTitle"></h2>
+  <div id="lessonContent"></div>
+  <div class="controls">
+   <button class="action secondary" id="prevLesson">السابق</button>
+   <button class="action" id="nextLesson">التالي</button>
+  </div>
+ </div>
+</section>
+
+<section id="proofs" class="panel">
+ <div class="card">
+  <h2>البراهين والتوضيحات الرياضية</h2>
+  <details>
+   <summary>1. برهان نهاية الدالة x² عندما x تقترب من a</summary>
+   <p>نريد إثبات أن:</p>
+   <div class="formula">lim x² = a² عندما x → a</div>
+   <p>نستعمل العلاقة:</p>
+   <div class="formula">|x² − a²| = |x − a| |x + a|</div>
+   <p>إذا كان x قريباً من a، فإن |x+a| يبقى محدوداً. نختار مثلاً |x−a| أقل من 1، فنحصل على:</p>
+   <div class="formula">|x+a| ≤ 2|a| + 1</div>
+   <p>إذن بجعل |x−a| صغيراً بما يكفي، تصبح |x²−a²| صغيرة كما نريد. وبالتالي:</p>
+   <div class="formula">lim x² = a²</div>
+  </details>
+  <details>
+   <summary>2. برهان نهاية الجذر باستعمال المرافق</summary>
+   <p>لدراسة:</p>
+   <div class="formula">(√(x+1) − 1) / x</div>
+   <p>نضرب البسط والمقام في المرافق:</p>
+   <div class="formula">√(x+1) + 1</div>
+   <p>نحصل على:</p>
+   <div class="formula">1 / (√(x+1) + 1)</div>
+   <p>عندما x تؤول إلى الصفر، نحصل على:</p>
+   <div class="formula">1 / 2</div>
+  </details>
+  <details>
+   <summary>3. مبرهنة القيم المتوسطة</summary>
+   <p>إذا كانت الدالة f متصلة على المجال المغلق [a,b]، فإنها تأخذ كل قيمة محصورة بين f(a) و f(b).</p>
+   <p>بصفة خاصة، إذا كان:</p>
+   <div class="formula">f(a) × f(b) &lt; 0</div>
+   <p>فإنه يوجد عدد c بين a و b بحيث:</p>
+   <div class="formula">f(c) = 0</div>
+   <div class="info">هذه المبرهنة تسمح بإثبات وجود حل لمعادلة دون الحاجة إلى حسابه مباشرة.</div>
+  </details>
+  <details>
+   <summary>4. وحدانية الحل باستعمال التزايد</summary>
+   <p>إذا كانت f متصلة تماماً على مجال I ومتزايدة تماماً، فلا يمكن أن يكون للمعادلة f(x)=0 أكثر من حل واحد.</p>
+   <p>لأن وجود حلين مختلفين α و β، مع α أصغر من β، يفرض:</p>
+   <div class="formula">f(α) &lt; f(β)</div>
+   <p>وهذا يتناقض مع f(α)=f(β)=0.</p>
+  </details>
+ </div>
+</section>
+
+<section id="examples" class="panel">
+ <div class="card">
+  <h2>أمثلة محلولة خطوة بخطوة</h2>
+  <details open>
+   <summary>مثال 1: حساب نهاية بالتعويض المباشر</summary>
+   <p>احسب:</p>
+   <div class="formula">lim (x² + 3x + 2) عندما x → 1</div>
+   <p>بما أن الدالة كثيرة حدود فهي متصلة على ℝ، نعوض مباشرة:</p>
+   <div class="formula">1² + 3×1 + 2 = 6</div>
+   <div class="info">النتيجة: النهاية تساوي 6.</div>
+  </details>
+  <details>
+   <summary>مثال 2: حالة غير معينة 0/0</summary>
+   <p>احسب:</p>
+   <div class="formula">lim (x² − 4)/(x − 2) عندما x → 2</div>
+   <p>التعويض المباشر يعطي 0/0. نحلل البسط:</p>
+   <div class="formula">x² − 4 = (x − 2)(x + 2)</div>
+   <p>نختزل العامل المشترك عندما x ≠ 2:</p>
+   <div class="formula">(x² − 4)/(x − 2) = x + 2</div>
+   <p>إذن:</p>
+   <div class="formula">lim (x + 2) = 4</div>
+  </details>
+  <details>
+   <summary>مثال 3: نهاية باستعمال المرافق</summary>
+   <p>احسب:</p>
+   <div class="formula">lim (√(x+5) − 3)/(x − 4) عندما x → 4</div>
+   <p>نضرب في المرافق:</p>
+   <div class="formula">[(√(x+5) − 3)(√(x+5) + 3)] / [(x−4)(√(x+5)+3)]</div>
+   <p>نبسط البسط:</p>
+   <div class="formula">(x−4) / [(x−4)(√(x+5)+3)]</div>
+   <p>بعد الاختزال والتعويض:</p>
+   <div class="formula">1 / (3+3) = 1/6</div>
+  </details>
+  <details>
+   <summary>مثال 4: نهاية عند المالانهاية</summary>
+   <p>احسب:</p>
+   <div class="formula">lim (3x² + 2x − 1)/(x² − 4) عندما x → +∞</div>
+   <p>نقسم البسط والمقام على x²:</p>
+   <div class="formula">(3 + 2/x − 1/x²)/(1 − 4/x²)</div>
+   <p>عندما x تؤول إلى +∞، الحدود التي تحتوي على 1/x تؤول إلى الصفر.</p>
+   <div class="info">النتيجة: 3.</div>
+  </details>
+  <details>
+   <summary>مثال 5: المقارب العمودي</summary>
+   <p>لتكن:</p>
+   <div class="formula">f(x) = 1/(x−2)</div>
+   <p>عندما x تقترب من 2 من اليمين، فإن f(x) تؤول إلى +∞، ومن اليسار تؤول إلى −∞.</p>
+   <div class="info">إذن المستقيم x=2 مقارب عمودي للمنحنى.</div>
+  </details>
+ </div>
+</section>
+
+<section id="graphs" class="panel">
+ <div class="card">
+  <h2>مختبر المنحنيات التفاعلي</h2>
+  <p class="muted">اختر دالة ولاحظ شكل منحناها وسلوكها قرب النقطة المحددة.</p>
+  <div class="graph-controls">
+   <select id="functionSelect">
+    <option value="square">f(x) = x²</option>
+    <option value="inverse">f(x) = 1/x</option>
+    <option value="rational">f(x) = (x²−1)/(x−1)</option>
+    <option value="sqrt">f(x) = √x</option>
+    <option value="absolute">f(x) = |x|</option>
+    <option value="exp">f(x) = eˣ</option>
+   </select>
+  </div>
+  <canvas id="graph" width="700" height="350"></canvas>
+  <div class="graph-controls">
+   <label>النقطة a:</label>
+   <input type="range" id="pointA" min="-4" max="4" step=".1" value="1">
+   <strong id="pointValue">1</strong>
+  </div>
+  <div class="info" id="graphInfo">اختر دالة لمشاهدة سلوكها.</div>
+ </div>
+</section>
+
+<section id="exercises" class="panel">
+ <div class="card">
+  <h2>تمارين تطبيقية</h2>
+  <p class="muted">حاول حل التمرين قبل فتح التصحيح.</p>
+  <div id="exerciseList"></div>
+ </div>
+</section>
+
+<section id="quiz" class="panel">
+ <div class="card">
+  <h2>اختبار تقييم المكتسبات</h2>
+  <div id="quizArea"></div>
+  <button class="action" id="checkQuiz">تصحيح الاختبار</button>
+  <div class="result" id="quizResult"></div>
+ </div>
+</section>
+
+</main>
+
+<footer>MATH BAC PRO — منصة تعليم الرياضيات</footer>
+
+<script>
+const lessons = [
+{
+title:"1. مفهوم النهاية",
+content:`
+<p>تُعد النهاية من المفاهيم الأساسية في التحليل الرياضي. وهي تصف السلوك الذي تقترب منه قيم الدالة عندما يقترب المتغير من عدد معين أو يتجه نحو المالانهاية.</p>
+<h3>التعريف الحدسي</h3>
+<p>نقول إن نهاية f(x) عندما x تؤول إلى a هي L إذا كانت قيم f(x) تقترب من L كلما اقتربت x من a.</p>
+<div class="formula">lim f(x) = L عندما x → a</div>
+<h3>التعريف الرياضي</h3>
+<p>نقول إن نهاية f عند a هي L إذا كان لكل ε أكبر من صفر يوجد δ أكبر من صفر بحيث:</p>
+<div class="formula">0 &lt; |x−a| &lt; δ ⇒ |f(x)−L| &lt; ε</div>
+<div class="note">الفكرة: نستطيع جعل f(x) قريبة من L بقدر ما نريد، وذلك باختيار x قريبة بما يكفي من a.</div>
+<h3>النهايات الجانبية</h3>
+<div class="formula">lim f(x) عندما x → a⁺</div>
+<p>نهاية من اليمين، أي نقترب من a بقيم أكبر منه.</p>
+<div class="formula">lim f(x) عندما x → a⁻</div>
+<p>نهاية من اليسار، أي نقترب من a بقيم أصغر منه.</p>
+`
+},
+{
+title:"2. حساب النهايات عند نقطة",
+content:`
+<p>لحساب نهاية دالة عند نقطة، نبدأ بمحاولة التعويض المباشر إذا كانت الدالة تسمح بذلك.</p>
+<h3>الحالة الأولى: التعويض المباشر</h3>
+<p>إذا كانت f متصلة عند a، فإن:</p>
+<div class="formula">lim f(x) = f(a)</div>
+<p>مثال:</p>
+<div class="formula">lim (x²+2x+1) عندما x → 2 = 9</div>
+<h3>الحالة الثانية: ظهور 0/0</h3>
+<p>هذه ليست نتيجة نهائية، بل حالة غير معينة تتطلب معالجة جبرية.</p>
+<p>من أهم الطرق:</p>
+<ul>
+<li>تحليل العبارة إلى عوامل.</li>
+<li>الاختزال.</li>
+<li>الضرب في المرافق.</li>
+<li>استعمال المتطابقات الشهيرة.</li>
+</ul>
+<div class="note">لا يجوز اختزال حدود الجمع والطرح؛ الاختزال يكون بين عوامل مضروبة فقط.</div>
+`
+},
+{
+title:"3. النهايات عند المالانهاية",
+content:`
+<p>ندرس سلوك الدالة عندما يأخذ x قيماً كبيرة جداً موجبة أو سالبة.</p>
+<h3>نهايات مرجعية مهمة</h3>
+<div class="formula">lim 1/x = 0 عندما x → ±∞</div>
+<div class="formula">lim 1/x² = 0 عندما x → ±∞</div>
+<div class="formula">lim x² = +∞ عندما x → ±∞</div>
+<div class="formula">lim eˣ = +∞ عندما x → +∞</div>
+<div class="formula">lim eˣ = 0 عندما x → −∞</div>
+<h3>نهاية دالة كسرية</h3>
+<p>في كثير من الحالات نقسم البسط والمقام على أكبر قوة للمتغير.</p>
+<p>مثال:</p>
+<div class="formula">(2x²+3x)/(x²−1)</div>
+<p>نقسم على x²، ثم نستعمل أن 1/x و1/x² تؤولان إلى الصفر.</p>
+<div class="info">النهاية تساوي نسبة معاملي أكبر قوتين، أي 2.</div>
+`
+},
+{
+title:"4. العمليات على النهايات",
+content:`
+<p>إذا كانت نهايتا f و g موجودتين وتساويان على الترتيب L و M، فإن:</p>
+<div class="formula">lim(f+g) = L+M</div>
+<div class="formula">lim(f×g) = L×M</div>
+<div class="formula">lim(f/g) = L/M إذا M ≠ 0</div>
+<div class="formula">lim(fⁿ) = Lⁿ</div>
+<h3>التركيب</h3>
+<p>إذا كانت g(x) تؤول إلى b وكانت f متصلة عند b، فإن:</p>
+<div class="formula">lim f(g(x)) = f(b)</div>
+<div class="note">يجب التحقق من شروط كل عملية قبل تطبيق قواعد النهايات.</div>
+`
+},
+{
+title:"5. الأشكال غير المعينة",
+content:`
+<p>هناك أشكال لا تسمح بتحديد النهاية مباشرة، وتسمى الأشكال غير المعينة.</p>
+<div class="formula">0/0</div>
+<div class="formula">∞/∞</div>
+<div class="formula">∞ − ∞</div>
+<div class="formula">0 × ∞</div>
+<div class="formula">1^∞ ، 0^0 ، ∞^0</div>
+<h3>كيف نعالجها؟</h3>
+<ul>
+<li>التحليل والاختزال في حالة 0/0.</li>
+<li>القسمة على أكبر قوة في حالة ∞/∞.</li>
+<li>توحيد المقامات في حالة ∞−∞.</li>
+<li>إعادة كتابة الجداء أو استعمال المرافق في حالة 0×∞.</li>
+</ul>
+<div class="note">وجود شكل غير معين يعني أن علينا مواصلة الحساب، وليس أن النهاية غير موجودة.</div>
+`
+},
+{
+title:"6. المقاربات",
+content:`
+<h3>المقارب العمودي</h3>
+<p>إذا كانت إحدى النهايتين الجانبيتين للدالة عند a تساوي +∞ أو −∞، فقد يكون المستقيم x=a مقارباً عمودياً.</p>
+<div class="formula">x = a</div>
+<h3>المقارب الأفقي</h3>
+<p>إذا كانت نهاية f(x) عندما x تؤول إلى +∞ تساوي L، فإن المستقيم:</p>
+<div class="formula">y = L</div>
+<p>مقارب أفقي عند +∞. ونفس الفكرة عند −∞.</p>
+<h3>المقارب المائل</h3>
+<p>إذا أمكن إيجاد عددين m و p بحيث:</p>
+<div class="formula">lim [f(x) − (mx+p)] = 0</div>
+<p>فإن المستقيم y=mx+p مقارب مائل.</p>
+`
+},
+{
+title:"7. الاستمرارية",
+content:`
+<p>تكون الدالة f متصلة عند a إذا تحققت الشروط التالية:</p>
+<div class="formula">f(a) موجودة</div>
+<div class="formula">lim f(x) = f(a) عندما x → a</div>
+<p>أي إن نهاية الدالة عند النقطة تساوي قيمة الدالة فيها.</p>
+<h3>الدوال المتصلة المعروفة</h3>
+<ul>
+<li>الدوال كثيرة الحدود متصلة على ℝ.</li>
+<li>الدوال الكسرية متصلة حيث يكون المقام غير منعدم.</li>
+<li>دالة الجذر متصلة على مجال تعريفها.</li>
+<li>الدالة الأسية متصلة على ℝ.</li>
+</ul>
+<div class="note">الاستمرارية مفهوم أساسي لاستعمال مبرهنة القيم المتوسطة.</div>
+`
+},
+{
+title:"8. مبرهنة القيم المتوسطة",
+content:`
+<p>إذا كانت f متصلة على [a,b]، فإنها تأخذ كل قيمة محصورة بين f(a) و f(b).</p>
+<h3>حالة وجود حل لمعادلة</h3>
+<p>إذا كانت f متصلة على [a,b] وكان:</p>
+<div class="formula">f(a) × f(b) &lt; 0</div>
+<p>فإن المعادلة f(x)=0 تقبل حلاً واحداً على الأقل في ]a,b[.</p>
+<h3>وحدانية الحل</h3>
+<p>إذا كانت f متزايدة تماماً أو متناقصة تماماً على المجال، فإن الحل يكون وحيداً.</p>
+<div class="info">في البكالوريا: نثبت الاستمرارية، ثم نتحقق من تغير الإشارة، ثم ندرس التزايد أو التناقص لإثبات الوحدانية.</div>
+`
+}
+];
+
+let currentLesson=0;
+const titleEl=document.getElementById("lessonTitle");
+const contentEl=document.getElementById("lessonContent");
+
+function renderLesson(){
+ const L=lessons[currentLesson];
+ titleEl.textContent=L.title;
+ contentEl.innerHTML=L.content;
+ document.getElementById("lessonCount").textContent=
+ "الدرس "+(currentLesson+1)+" من "+lessons.length;
+ document.getElementById("prevLesson").disabled=currentLesson===0;
+ document.getElementById("nextLesson").disabled=currentLesson===lessons.length-1;
+ document.getElementById("progressBar").style.width=
+ ((currentLesson+1)/lessons.length*100)+"%";
+}
+document.getElementById("prevLesson").onclick=()=>{
+ if(currentLesson>0){currentLesson--;renderLesson();}
+};
+document.getElementById("nextLesson").onclick=()=>{
+ if(currentLesson<lessons.length-1){currentLesson++;renderLesson();}
+};
+renderLesson();
+
+document.querySelectorAll("nav button").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById(btn.dataset.tab).classList.add("active");
+  if(btn.dataset.tab==="graphs")drawGraph();
+ });
+});
+
+const exercises=[
+["احسب lim (x²−9)/(x−3) عندما x→3","نحلل: x²−9=(x−3)(x+3)، وبعد الاختزال تكون النهاية 6."],
+["احسب lim (2x+1) عندما x→4","بالتعويض المباشر: 2×4+1=9."],
+["احسب lim (x²+1)/x² عندما x→+∞","نقسم على x²: 1+1/x²، والنهاية 1."],
+["احسب lim (√(x+4)−2)/x عندما x→0","نضرب في المرافق فنحصل على 1/(√(x+4)+2)، والنهاية 1/4."],
+["ما نوع المقارب إذا كانت النهاية عند x=2 تساوي +∞؟","المستقيم x=2 مقارب عمودي."],
+["احسب lim (3x²−x)/(x²+5) عندما x→−∞","نقسم على x²، فنجد أن النهاية 3."],
+["هل الدالة x² متصلة على ℝ؟","نعم، لأنها دالة كثيرة حدود."],
+["ما شرط الاستمرارية عند a؟","وجود f(a)، ووجود النهاية عند a، وتساوي النهاية مع f(a)."],
+["إذا f(1)=−2 وf(3)=4 وكانت متصلة، ماذا نستنتج؟","حسب مبرهنة القيم المتوسطة يوجد c بين 1 و3 بحيث f(c)=0."],
+["ما نهاية 1/x عندما x→+∞؟","تساوي 0."]
+];
+const exerciseList=document.getElementById("exerciseList");
+exercises.forEach((e,i)=>{
+ const div=document.createElement("div");
+ div.className="exercise";
+ div.innerHTML=`
+ <strong>التمرين ${i+1}</strong>
+ <p>${e[0]}</p>
+ <details><summary>إظهار التصحيح</summary><div class="solution">${e[1]}</div></details>`;
+ exerciseList.appendChild(div);
+});
+
+const quiz=[
+ {q:"ما نهاية x² عندما x تؤول إلى 3؟",o:["3","6","9","0"],a:2},
+ {q:"ما الشكل غير المعين؟",o:["2/3","0/0","5/2","1/3"],a:1},
+ {q:"ما المقارب العمودي للدالة 1/(x−4)؟",o:["y=4","x=0","x=4","y=0"],a:2},
+ {q:"الدالة كثيرة الحدود متصلة على:",o:["ℝ","فقط ℝ⁺","فقط ℝ⁻","لا مجال"],a:0},
+ {q:"إذا f(a)f(b)<0 والدالة متصلة، فإن:",o:["لا يوجد حل","يوجد حل على الأقل","الحل موجب دائماً","النهاية معدومة"],a:1}
+];
+const quizArea=document.getElementById("quizArea");
+quiz.forEach((q,i)=>{
+ const div=document.createElement("div");
+ div.className="exercise";
+ div.innerHTML=`<strong>${i+1}. ${q.q}</strong>`;
+ q.o.forEach((option,j)=>{
+  div.innerHTML+=`<label class="quiz-option"><input type="radio" name="q${i}" value="${j}"> ${option}</label>`;
+ });
+ quizArea.appendChild(div);
+});
+document.getElementById("checkQuiz").onclick=()=>{
+ let score=0;
+ quiz.forEach((q,i)=>{
+  const selected=document.querySelector(`input[name="q${i}"]:checked`);
+  if(selected && Number(selected.value)===q.a)score++;
+ });
+ document.getElementById("quizResult").textContent=
+ "نتيجتك: "+score+" / "+quiz.length+
+ (score===quiz.length?" — ممتاز!": " — راجع الدروس وحاول مرة أخرى.");
+};
+
+const canvas=document.getElementById("graph");
+const ctx=canvas.getContext("2d");
+const functionSelect=document.getElementById("functionSelect");
+const pointA=document.getElementById("pointA");
+const pointValue=document.getElementById("pointValue");
+
+function f(x,type){
+ if(type==="square")return x*x;
+ if(type==="inverse")return x===0?NaN:1/x;
+ if(type==="rational")return Math.abs(x-1)<.025?NaN:x+1;
+ if(type==="sqrt")return x<0?NaN:Math.sqrt(x);
+ if(type==="absolute")return Math.abs(x);
+ if(type==="exp")return Math.exp(x);
+ return NaN;
+}
+function drawGraph(){
+ const W=canvas.width,H=canvas.height;
+ const xmin=-5,xmax=5,ymin=-5,ymax=5;
+ ctx.clearRect(0,0,W,H);
+ const X=x=>((x-xmin)/(xmax-xmin))*W;
+ const Y=y=>H-((y-ymin)/(ymax-ymin))*H;
+ ctx.strokeStyle="#e5eaf2";ctx.lineWidth=1;
+ for(let x=-5;x<=5;x++){
+  ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke();
+ }
+ for(let y=-5;y<=5;y++){
+  ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(W,Y(y));ctx.stroke();
+ }
+ ctx.strokeStyle="#52647c";ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.stroke();
+ const type=functionSelect.value;
+ ctx.strokeStyle="#1768bd";ctx.lineWidth=3;ctx.beginPath();
+ let started=false;
+ for(let px=0;px<=W;px++){
+  const x=xmin+px/W*(xmax-xmin);
+  const y=f(x,type);
+  if(!Number.isFinite(y)||y<ymin||y>ymax){started=false;continue;}
+  if(!started){ctx.moveTo(px,Y(y));started=true;}
+  else ctx.lineTo(px,Y(y));
+ }
+ ctx.stroke();
+ const a=Number(pointA.value),ya=f(a,type);
+ if(Number.isFinite(ya)&&ya>=ymin&&ya<=ymax){
+  ctx.fillStyle="#e85d04";ctx.beginPath();ctx.arc(X(a),Y(ya),6,0,Math.PI*2);ctx.fill();
+ }
+ pointValue.textContent=a.toFixed(1);
+ const descriptions={
+ square:"الدالة x² متصلة على ℝ، ونهايتها عند a تساوي a².",
+ inverse:"الدالة 1/x غير معرفة عند الصفر، ولها مقارب عمودي x=0.",
+ rational:"الدالة تساوي x+1 عندما x≠1، ولها انقطاع قابل للإزالة عند x=1.",
+ sqrt:"دالة الجذر معرفة على [0,+∞[ ومتواصلة على مجال تعريفها.",
+ absolute:"دالة القيمة المطلقة متصلة على ℝ.",
+ exp:"الدالة الأسية متصلة على ℝ وتؤول إلى +∞ عند +∞."
+ };
+ document.getElementById("graphInfo").textContent=descriptions[type];
+}
+functionSelect.addEventListener("change",drawGraph);
+pointA.addEventListener("input",drawGraph);
+drawGraph();
+</script>
+</body>
+</html>
